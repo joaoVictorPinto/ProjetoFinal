@@ -1,0 +1,180 @@
+
+\documentclass[pdftex,12pt,oneside,openany,a4paper]{book}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc} % Aqui tem que mudar de acordo com o seu editor de texto
+\usepackage[T1]{fontenc} 
+
+
+\usepackage[pdftex]{graphicx} % include graphics
+\usepackage{subfigure} % Poder colocar varias figuras juntas
+\usepackage[unicode]{hyperref} % Para adicionar os links no pdf
+\usepackage[all]{hypcap}
+\usepackage{array} % Adicionar a opcao m e b em tabelas e um monte de coisa que eu nao usei
+\usepackage[section]{placeins} % Caso tenha muitas imagens
+\usepackage{morefloats} % mais floats (figuras tabelas etc)!
+\usepackage{afterpage} % Para linha em negrito
+\newcolumntype{+}{>{\global\let\currentrowstyle\relax}}
+\newcolumntype{^}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}#1\ignorespaces}
+\usepackage[overload]{textcase} % Adicionar MakeUpperCase etc.
+\usepackage{rotating} % Para rodar as figuras e tabelas
+\usepackage{pdflscape} % Para colocar paginas na horizontal no pdf
+\usepackage{eurosym}  % Para o simb de Euro
+\usepackage{amssymb} % Para adicionar um monte de símbolos que nao existem normalmente,como aproximadamente menor que.
+\usepackage{pbox} % Para pular linhas dentro de celulas
+\usepackage{ccaption} % Para footnotes dentro de captions
+\usepackage{multirow} % Unir celulas
+\usepackage{indentfirst} % Para dar espaco para o primeiro paragrafo
+\usepackage{multirow} % Tabelas com celulas agrupadas
+\usepackage{amsmath}  % equation etc
+\usepackage{listings} % Para colocar codigos de programas
+%\usepackage{simplemargins}
+
+\usepackage{multirow}
+\usepackage[table,xcdraw]{xcolor}
+
+\hypersetup{
+    unicode=true,          % non-Latin characters in bookmarks
+    pdftitle={Projeto Final},    % title
+    pdfauthor={Joao Victor da Fonseca Pinto},     % author
+    pdfsubject={Projeto Final},   % subject of the document
+    colorlinks=true,       % false: boxed links; true: colored links
+    pdfdisplaydoctitle=true,
+    citecolor=black,%
+    filecolor=black,%
+    linkcolor=black,%
+    urlcolor=black%
+}
+
+
+
+% Formato do PF
+\setlength{\textheight}{24.7cm}
+\setlength{\textwidth}{15cm}
+\setlength{\footskip}{1.25cm}
+\setlength{\footnotesep}{0.5cm}
+\setlength{\headheight}{0pt}
+\setlength{\headsep}{0pt}
+\setlength{\oddsidemargin}{0.46cm} % 0.46
+\setlength{\evensidemargin}{0.46cm} % 0.46
+\setlength{\topmargin}{-.04cm}   %-.04
+\setlength{\marginparsep}{0pt}
+\setlength{\marginparwidth}{0pt}
+\setlength{\parindent}{1.25cm}
+\renewcommand{\baselinestretch}{1.5}
+\usepackage{fancyhdr} % Numero das paginas na esquerda e direita:
+\fancypagestyle{plain}{
+\fancyhf{} 
+\fancyfoot[LE]{\thepage}
+\fancyfoot[RO]{\thepage}
+\renewcommand{\headrulewidth}{0.0pt}
+\renewcommand{\footrulewidth}{0.0pt}
+}
+\makeatletter
+\renewcommand\chapter{\if@openright\cleardoublepage\else\cleardoublepage\fi
+                    \thispagestyle{fancy}%
+                    \global\@topnum\z@
+                    \@afterindentfalse
+                    \secdef\@chapter\@schapter}
+\makeatother
+\pagestyle{plain}
+
+
+%\usepackage[style=long,nonumberlist,toc]{glossaries}
+\usepackage[style=long,nonumberlist,sanitize=none]{glossaries} % Para as listas de simbolos e abreviaturas
+\usepackage{etoolbox} % Para robustify
+\robustify{\gls}
+\renewcommand{\glossaryname}{Símbolos e Abreviaturas}
+
+% Define a new glossary type
+\newglossary[slg]{Simb}{sym}{sbl}{Lista de Símbolos}
+\newglossary[alg]{Abrev}{abr}{abv}{Lista de Abreviaturas}
+%\defglsdisplayfirst[Abrev]{#4 #1}
+%\defglsdisplay[Abrev]{#1#4 (denoted #3)}
+\input{pf_simb.tex}
+\input{pf_abrev.tex}
+\makeglossaries
+
+\renewcommand*{\glsclearpage}{\cleardoublepage} % Para não haver diferenças entre pagina par e impar
+\renewenvironment{theglossary}
+  {\begin{longtable}{l@{{ }{ }{ }{ }{ }{ }{ }{ }{ }{ }}p{0.80\textwidth}}}
+  {\end{longtable}}%
+\renewcommand{\glsgroupskip}{}
+
+
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+% Redefinir o paragraph para virar um Subtopico
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}
+    {-3.25ex\@plus -1ex \@minus -.2ex}
+    {1.5ex \@plus .2ex}
+    {\normalfont\normalsize\bfseries}}
+\makeatother
+
+
+% Mutliplas referencias de pag de nota com o mesmo numero
+\newcommand*{\fnref}[1]{\textsuperscript{\ref{#1}}}
+%\newcommand*{\addtotoc}[2]{\cleardoublepage\phantomsection\addcontentsline{toc}{#1}{#2}}
+
+
+% Capa
+\begin{document}
+
+\pagenumbering{roman}
+\addtocounter{page}{1}
+
+\input{Capa.tex}
+\input{Preambulo.tex}
+
+%\input{pf_capa.tex}
+
+\input{pf_agradecimentos.tex}
+\input{pf_resumo.tex}
+
+\cleardoublepage
+
+% Sumario
+\vfill
+\cleardoublepage \phantomsection \addcontentsline{toc}{chapter}{Sumário}
+\tableofcontents
+\vfill
+\cleardoublepage \phantomsection \addcontentsline{toc}{section}{Lista de Figuras}
+\listoffigures
+\vfill
+\cleardoublepage \phantomsection \addcontentsline{toc}{section}{Lista de Tabelas}
+\listoftables
+\vfill
+%\cleardoublepage \phantomsection \addcontentsline{toc}{section}{Lista de Símbolos}
+\cleardoublepage \phantomsection \addcontentsline{toc}{section}{Glossary}
+%\renewcommand{\glossarypreamble}{Texto Simbulos}
+\printglossary[type=Simb]
+
+\cleardoublepage \phantomsection \addcontentsline{toc}{section}{Lista de Abreviaturas}
+\renewcommand{\glossarypreamble}{No caso de algumas abreviaturas internacionalmente conhecidas, optou-se por mante-las em sua lingua original.}
+\printglossary[type=Abrev]
+%\cleardoublepage
+
+\pagenumbering{arabic}
+
+\input{pf_introducao}
+\input{pf_cern}
+
+\input{pf_trigger}
+\input{pf_metodologia}
+\input{pf_resultados}
+\input{pf_conclusao}
+%\input{conclusao}
+\glsaddall
+
+\cleardoublepage
+\bibliographystyle{coppe}
+\cleardoublepage \phantomsection \addcontentsline{toc}{chapter}{Referências Bibliográficas}
+\bibliography{pf_bibliografia}
+%\appendix
+%\input{publicacoes}
+
+\end{document}
+

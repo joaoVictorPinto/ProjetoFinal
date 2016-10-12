@@ -1,0 +1,136 @@
+\chapter{Introdução}
+\label{cap:intro}
+\glsresetall
+
+Diversas aplicações na engenharia estão relacionadas em ambientes cuja a alta taxa
+de eventos e a rara ocorrência são uma dificuldade a ser superada. Diversas técnicas
+e ferramentas  disponíveis  atualmente podem ser utilizadas como solução para tais
+problemas. Técnicas de Inteligência artificial, como \acrlongpl{rna} são utilizadas para 
+selecionar eficientemente a informação relevante ao experimento em tempo real. 
+Posteriormente, os eventos selecionados armazenados são analisados utilizando-se 
+de técnicas mais refinadas a fim de se obter melhores resultados que aqueles realizados 
+durante a etapa de seleção em tempo real.
+
+Em aplicações onde utiliza-se uma quantidade grande de sensores para descrever
+com precisão o fenômeno de interesse e cuja a alta taxa é relativamente alta. Novamente,
+as técnicas de inteligência artificial, Processamento de Sinais Estocástico utilizadas para selecionar
+eficientemente o evento e algoritmos de compactação de informação utilizados para
+extrair as características  do sinal podem ser utilizadas para reduzir o fluxo e quantidade
+de informação a ser analisada na aplicação
+
+\section{Motivação}
+
+O \gls{cern} é o maior centro de pesquisas em física de partículas do mundo, situado na  fronteira da Suíça com 
+a França. O experimento de maior repercussão do \gls{cern} atualmente é o \gls{lhc}, um acelerador de partículas 
+de 27~km de circunferência que irá atingir energia de colisões nunca antes obtidas experimentalmente. 
+
+Neste experimento, de proporções de colaboração internacional, serão acelerados pacotes\footnote{Um aglomerado de partículas.}
+de prótons em feixes com sentidos opostos onde ocorrerão colisões em quatro pontos. Nesses pontos, foram instalados 
+detectores de partículas. O \gls{atlas}  é o maior detetor do mundo, construído por uma colaboração internacional de 
+174 institutos e 38 países. Este detetor foi projetado de modo a atender os diversos requisitos solicitados pelos
+estudiosos da area de forma a realizar o estudo geral da matéria. Com todos esses requisitos, o detetor possui aproximadamente 
+140 milhões de canais de leitura e está dividido nos seguintes subdetectores:
+
+\begin{itemize}
+\item \gls{id}, ou Inner Detector, é responsável pela detecção da trajetória de partículas carregadas;
+\item \gls{ecal}, cujo objetivo é realizar a absorção total da energia de partículas eletromagnéticas;
+\item \gls{hcal}, que de maneira similar ao eletromagnético, realiza a absorção da energia de partículas hadrônicas;
+\item Espectrômetro de Múons, camada mais externa do detetor, realiza  a identificação e determinação da trajetória de Múons.
+\end{itemize}
+
+Devido a física de interesse ser extremamente rara, são necessários diversos dias de colisão para se
+observar o evento de interesse. O detector  \gls{atlas}  foi concebido com o objetivo de identificar
+principalmente a partícula de Higgs, descoberta entre as colisões de 2011 e 2012. Em números,
+o subproduto da colisão de pacotes de prótons no detetor gera uma taxa de 40MHz de informação.
+Se todos esses eventos produzidos fossem armazenados, o detetor produziria 60TB de informação
+por segundo, tornando impossível seu armazenamento físico para as condições do projeto. Como 
+solução, foi proposto um sistema de filtragem online de eventos.
+
+O sistema de trigger do  \gls{atlas} é dividido em três níveis em sequência com o objetivo de reduzir
+a taxa de armazenamento e maximizar a eficiência na detecção. As características de cada nível são
+descritas a seguir:
+
+
+\begin{itemize}
+\item O \glslink{l1}{Primeiro Nível de filtragem} realiza a filtragem com
+\gls{fpga}\footnote{Circuitos integrados digitais e programáveis.}, 
+utilizando resolução reduzida das células do detector e ou o detector de múons
+com um tempo fixo de 2,5~$\mu$s, reduzindo a taxa de eventos para
+75~kHz. Ele também é responsável pela identificação de regiões no detector onde
+há informação relevante, referidas como \gls{roi}. Somente a
+informação contida nessa região é propagada para o segundo nível, de forma a
+minimizar o fluxo de dados no sistema.
+
+\item O \glslink{l2}{Segundo Nível de Trigger ou Fast High Level Trigger} 
+acessa a \gls{roi} enviada pela aceitação do nível anterior e utiliza
+a resolução total do detetor para executar a reconstrução e extração
+de características do calorímetro e do  \gls{id}. O tempo de latência deste nível é de aproximadamente
+10~ms, e deve reduzir a taxa de eventos para 2~kHz. É implementado em linguagens de alto
+nível como C++ e python, o que permite rodar algoritmos mais sofisticados, desde que esses atendam
+os requisitos de tempo requeridos por este nível.
+
+\item O \glslink{ef}{Terceiro Nível ou Precision High Level Trigger}, além de avaliar com maior acurácia aqueles que foram
+selecionados pelo segundo nível. Ele possui um tempo de  latência de 10~s, reduzindo a 
+taxa de eventos para 100~Hz. Neste nível algoritmos de calibração, reconstrução e algoritmos de track, que possuem 
+maior custo computacional, são executados utilizando total acesso a todos os canais do detetor para uma decisão mais acurada.
+
+\end{itemize}
+
+Os eventos aceitos pelo \gls{hlt} são armazenados para serem analisados a posteriori pelos físicos
+responsáveis por cada canal de interesse. Nesta etapa, algoritmos ainda mais rebuscados são utilizados
+para reconstruir com precisão máxima a informação da partícula no detector. Um dos maiores desafios
+do sistema de filtragem \textit{online} de eventos é maximizar a eficiência na detecção das partículas estudadas
+e minimizar a taxa de armazenamento de partículas desinteressantes para o processo. 
+
+Um dos canais de interesse do experimento, o Canal \acrshort{eg}, deseja identificar elétrons \glslink{eg}{(e$^-$)}, 
+pósitrons \glslink{eg}(e$^+$) ou fótons \glslink{eg}{($\gamma$)}, partículas de componentes eletromagnética. 
+Muitos dos decaimentos do bóson de Higgs serão nessas partículas, de forma que esse canal é de fundamental 
+importância para o experimento. Partículas onde componentes hadrônica são predominantes, mascaram a 
+assinatura das partículas desejadas pelo Canal \acrshort{eg}, fazendo com que a tarefa da identificação dessas 
+partículas não seja trivial.
+
+Assim, um dos objetivos dos algoritmos de extração e de hipótese no sistema de filtragem nesse canal é
+discriminar elétrons e fótons de jatos. Visando melhorar o desempenho do sistema de filtragem do detetor, 
+foi proposto um algoritmo de extração de características aneladas no calorímetro no segundo nível de filtragem. 
+Em conjunto com esse algoritmo foi implementado um sistema baseado em \gls{rna} como discriminador 
+para filtragens de partículas nesse canal.
+
+
+
+\section{Objetivos} 
+O propósito deste trabalho é apresentar um sistema de filtragem com alta eficiência de detecção de partículas
+no canal \acrshort{eg}, mais especificamente dos elétrons decorrentes do decaimento $H\rightarrow 2Z\rightarrow 4e$. Além do desenvolvimento 
+do discriminador, toda a parte de infraestrutura de código precisou ser implementada dentro do ambiente utilizado pela colaboração. 
+Em decorrência da grande quantidade de dados avaliados e da necessidade de maior poder computacional para realizar
+o treinamento e avaliação dos discriminadores, em paralelo, foi desenvolvido um \textit{framework}\footnote{uma abstração que une códigos 
+comuns entre vários projetos de software provendo uma funcionalidade genérica} de treinamento 
+de redes neurais em C++ e python capaz de utilizar o poder da computação paralela internacional utilizada pelo \gls{cern}.
+
+\newpage
+
+\section{Organização do documento}{{{
+
+
+
+O Capítulo~\ref{cap:cern} é dedicado ao \gls{cern} e ao contexto de colaboração internacional
+no qual o projeto foi desenvolvido, dando a base necessária para o entendimento
+do experimento \gls{atlas}. Foi realizada uma introdução sobre a Física de
+Partículas, uma apresentação ao acelerador \gls{lhc} e os componentes do detector \gls{atlas}.
+
+Por sua vez, o Capítulo~\ref{cap:trigger} é destinado ao sistema de filtragem. Nele será detalhado todo o atual
+sistema de \textit{trigger} utilizado no \gls{atlas}, No final deste capítulo também será detalhado os principais
+algoritmos de discriminação e extração de características utilizados no sistema de \textit{trigger} de alto nível.
+
+Dando continuidade, o Capítulo~\ref{cap:metodologia} será detalhado o algoritmo \textit{Neural Ringer}, proposta 
+deste trabalho, todo o processo de treinamento e  o sistema implementado em conjunto com a computação paralela do \gls{cern}.
+O Capítulo~\ref{cap:resultados} será apresentado os resultados e comparações com os algoritmos de referência e por fim 
+o Capítulo~\ref{cap:conclusao}  será apresentada as conclusões e trabalhos futuros.
+
+}}}
+
+
+
+
+
+
+

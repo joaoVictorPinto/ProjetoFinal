@@ -1,0 +1,74 @@
+
+
+\chapter{Conclusões e Trabalhos Futuros}
+\label{cap:conclusao}
+\glsresetall
+
+A informação de calorimetria é imprescindível para a operação do detector \acrshort{atlas}. Além da absorção
+de grande parte das partículas produzidas pelas colisões geradas pelo \acrshort{lhc}, algumas não podem ser
+detectadas corretamente sem o suporte dos calorímetros. Assim, esses sub-detectores acabam sendo
+de extrema importância para as análises físicas.
+
+Em geral, nesses tipos de experimento, onde para se observar os eventos de interesse são necessários
+vários dias de colisão e cujo a massa de dados gerada é considerável, torna-se necessário um 
+sistema de filtragem \textit{online}, uma vez que a separação dos eventos de interesse, no caso os elétrons provenientes
+do decaimento do bóson Z, e das partículas hadrônicas, é extremamente necessário na identificação
+destes canais.
+
+Esse trabalho final de curso mostrou o uso da informação de calorimetria na tentativa de otimizar a banda
+passante de aquisição de dados no sistema de filtragem \textit{online} do \acrshort{atlas}. Como elétrons
+representam um grande interesse para a física, estudos detalhados foram feitos na tentativa de aumentar
+a rejeição de eventos desinteressantes nesse canal.
+
+Os resultados obtidos evidenciaram que uma nova forma de descrição
+da informação de calorimetria nos detectores, combinada com a utilização de classificadores baseados em inteligência
+artificial pode melhorar o desempenho do sistema de \textit{trigger}. Assim, a redução da taxa de falso 
+alarme, logo na primeira etapa de discriminação do sistema, por um fator considerável, diminui, 
+o número de vezes em que os algoritmos mais sofisticados sejam aplicados.
+
+\section{Sistema de Filtragem de Calorimetria Rápida}
+
+O uso da informação de calorimetria como sinal principal na identificação de partículas no \acrshort{atlas} foi estudada
+utilizando uma comparação entre o atual algoritmo de extração de características de calorimetria baseado
+na descrição do chuveiro da partícula, e o algoritmos de extração do \textit{Neural Ringer}, cuja informação de calorimetria
+é mapeada em anéis concêntricos que descrevem a interação da partícula por toda a camada do calorímetro.
+
+Neste ambiente, foi comparada a resposta dos algoritmos de hipótese para ambos os sistemas. Os estudos
+utilizando simulação de Monte Carlo mostraram que o algoritmo \textit{Neural Ringer} possui uma alta rejeição
+a RoIs não interessantes para o processo de interesse, no caso os jatos. Mantendo, neste caso, aproximadamente
+a mesma probabilidade de detecção do algoritmo de referência.
+
+O método de validação cruzada mostrou que a quantidade neurônios necessários é de 8 neurônios na
+camada escondida. A rede de operação emulada dentro do ambiente de \textit{trigger} obteve uma eficiência de
+\textit{tag-and-probe} parecida com a requerida pela colaboração no algoritmo do T2Calo, uma vez que essa rede
+foi ajustada para ter a mesma eficiência. Assim, o principal ganho nesse caso foi a alta taxa de rejeição
+a falso alarme, com um fator de redução de  $\approx2$ vezes quando comparada com a referência.
+
+A proposta de utilização do índice máximo SP obtido na curva de operação da rede também obteve
+resultados satisfatórios em termos de falso alarme. Nesse caso, o SP ajusta o limiar de decisão da rede
+para se obter um balanço entre a probabilidade de detecção e o falso alarme.  Porém, em ambientes
+de filtragem \textit{online} de eventos deve-se preservar a taxa de detecção, assim, apenas a rede
+ajustada pela detecção da referência foi utilizada.
+
+
+\section{Trabalhos Futuros}
+
+Diversas estratégias estão sendo estudadas como forma de melhorar a eficiência do algoritmo de hipótese do
+\textit{Neural Ringer}. Uma estrutura bastante comum implementada nos algoritmos de hipótese, atualmente, 
+usados pela colaboração é a utilização de classificadores especialistas para cada região em $\eta$ do calorímetro e faixa de energia.
+Em geral, esses algoritmos contam com pelo menos dezenas de classificadores que são selecionadas dependendo da posição e da energia
+em $GeV$ do evento a ser testado. Os cortes também são ajustados dependendo da região e da energia. Assim, a próxima etapa do \textit{Neural Ringer}
+é aplicar esse novo esquema de classificadores especialistas na etapa de hipotese.
+
+Estudos preliminares também mostraram a possibilidade do \textit{Neural Ringer} substituir todos os algoritmos de hipótese do \textit{trigger} rápido mais 
+a etapa de decisão da calorimetria de alta precisão. Assim, o  \textit{Neural Ringer} seria responsável por toda a cadeia de decisão baseada em calorimetria
+no \textit{trigger} de alto nível. Por fim, como já mostrado em outros trabalhos, o pré-processamento também tem grande impacto nas eficiências dos 
+classificadores. Assim, os próximos passos incluirão um pré-processamento mais sofisticado com técnicas de processamento de sinais para otimizar, ainda mais, 
+a resposta do sistema de filtragem do \textit{Neural Ringer}.
+
+
+
+
+
+
+
